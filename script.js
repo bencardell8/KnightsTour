@@ -1,5 +1,6 @@
-const boardSize = 8;
-const board = document.getElementById("board");
+//sets the default size for the board upon loading the page
+boardSize = 8;
+board = document.getElementById("board");
 const cells = [];
 
       // Initialize the chessboard.
@@ -10,20 +11,45 @@ for (let row = 0; row < boardSize; row++) {
         const td = document.createElement("td");
         //td.textContent = `${row},${col}`;
         td.addEventListener("click", () => startTour(row, col));
-        td.addEventListener("click", () => td.textContent = "")
+        td.addEventListener("click", () => td.textContent = "1")
         cells[row][col] = td;
         tr.appendChild(td);
     }
     board.appendChild(tr);
 }
 
+
+//code for the reset button
 reset.addEventListener("click", function(){
+    board.innerHTML = ""; //removes the previous board
+    
+    //removes the colours and numbers from previous board
     for (let r = 0; r < boardSize; r++) {
         for (let c = 0; c < boardSize; c++) {
             cells[r][c].classList.remove("visited", "current");
             cells[r][c].textContent = ""
         }
     }
+    //reassigns boardSize to given input
+    boardSizeHolder = document.getElementById("boardsize");
+    boardSize = boardSizeHolder.value;
+    
+    //reinitializes a new board of given input size
+
+    for (let row = 0; row < boardSize; row++) {
+        const tr = document.createElement("tr");
+        cells[row] = [];
+        for (let col = 0; col < boardSize; col++) {
+            const td = document.createElement("td");
+            //td.textContent = `${row},${col}`;
+            td.addEventListener("click", () => startTour(row, col));
+            td.addEventListener("click", () => td.textContent = "1");
+            cells[row][col] = td;
+            tr.appendChild(td);
+        }
+        board.appendChild(tr);
+    }
+
     
 });
 
@@ -42,17 +68,17 @@ function startTour(row, col) {
     let y = col;
     cells[x][y].classList.add("visited");
     while (step < boardSize * boardSize) {
-    // Find the available moves from the current position.
+    //find  available moves from  current position.
     const moves = findMoves(x, y);
     if (moves.length === 0) {
-        // Dead end, backtrack.
+        //dead end so backtrack.
         break;
     }
 
-    // Sort the moves by the number of unvisited neighbors.
+    //sort moves by the number of unvisited neighbors
     moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
 
-    // Choose the next move.
+    //choose the next move.
     const [nextX, nextY] = moves[0];
 
     moveCount++;
