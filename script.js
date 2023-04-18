@@ -3,45 +3,35 @@ boardSize = 8;
 board = document.getElementById("board");
 const cells = [];
 
-      // Initialize the chessboard.
-function initialize(){
-for (let row = 0; row < boardSize; row++) {
-    const tr = document.createElement("tr");
-    cells[row] = [];
-    for (let col = 0; col < boardSize; col++) {
-        const td = document.createElement("td");
-        //td.textContent = `${row},${col}`;
-        td.addEventListener("click", () => startTour(row, col));
-        td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">');
-        cells[row][col] = td;
-        tr.appendChild(td);
+function initialize(){ //initializes first board or reinitializes a new board of given input size
+    for (let row = 0; row < boardSize; row++) {
+        const tr = document.createElement("tr");
+        cells[row] = [];
+        for (let col = 0; col < boardSize; col++) {
+            const td = document.createElement("td");
+            //td.textContent = `${row},${col}`;
+            td.addEventListener("click", () => startTour(row, col));
+            td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">');
+            cells[row][col] = td;
+            tr.appendChild(td);
+        }
+        board.appendChild(tr);
     }
-    board.appendChild(tr);
-}
 }
 
 initialize();
 
+
 //code for the reset button
 reset.addEventListener("click", function(){
     board.innerHTML = ""; //removes the previous board
-    
-    //removes the colours and numbers from previous board
-    for (let r = 0; r < boardSize; r++) {
-        for (let c = 0; c < boardSize; c++) {
-            cells[r][c].classList.remove("visited", "current");
-            cells[r][c].textContent = ""
-        }
-    }
+
     //reassigns boardSize to given input
     boardSizeHolder = document.getElementById("boardsize");
     boardSize = boardSizeHolder.value;
     
-    //reinitializes a new board of given input size
-
     initialize();
 
-    
 });
 
 function startTour(row, col) {
@@ -52,6 +42,7 @@ function startTour(row, col) {
             cells[r][c].textContent = ""
         }
     }
+
     let moveCount = 1
     // Perform the tour.
     let step = 1;
