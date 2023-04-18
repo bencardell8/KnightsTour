@@ -4,6 +4,7 @@ board = document.getElementById("board");
 const cells = [];
 
       // Initialize the chessboard.
+function initialize(){
 for (let row = 0; row < boardSize; row++) {
     const tr = document.createElement("tr");
     cells[row] = [];
@@ -11,13 +12,15 @@ for (let row = 0; row < boardSize; row++) {
         const td = document.createElement("td");
         //td.textContent = `${row},${col}`;
         td.addEventListener("click", () => startTour(row, col));
-        td.addEventListener("click", () => td.textContent = "1")
+        td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">');
         cells[row][col] = td;
         tr.appendChild(td);
     }
     board.appendChild(tr);
 }
+}
 
+initialize();
 
 //code for the reset button
 reset.addEventListener("click", function(){
@@ -36,19 +39,7 @@ reset.addEventListener("click", function(){
     
     //reinitializes a new board of given input size
 
-    for (let row = 0; row < boardSize; row++) {
-        const tr = document.createElement("tr");
-        cells[row] = [];
-        for (let col = 0; col < boardSize; col++) {
-            const td = document.createElement("td");
-            //td.textContent = `${row},${col}`;
-            td.addEventListener("click", () => startTour(row, col));
-            td.addEventListener("click", () => td.textContent = "1");
-            cells[row][col] = td;
-            tr.appendChild(td);
-        }
-        board.appendChild(tr);
-    }
+    initialize();
 
     
 });
@@ -56,10 +47,10 @@ reset.addEventListener("click", function(){
 function startTour(row, col) {
     // Clear the board.
     for (let r = 0; r < boardSize; r++) {
-    for (let c = 0; c < boardSize; c++) {
-        cells[r][c].classList.remove("visited", "current");
-        
-    }
+        for (let c = 0; c < boardSize; c++) {
+            cells[r][c].classList.remove("visited", "current");
+            cells[r][c].textContent = ""
+        }
     }
     let moveCount = 1
     // Perform the tour.
