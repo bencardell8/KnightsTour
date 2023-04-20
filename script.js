@@ -1,10 +1,25 @@
 //sets the size for the board upon loading the page
-boardSizeHolder = document.getElementById("boardsize");
-boardSize = boardSizeHolder.value;
+
 board = document.getElementById("board");
 const cells = [];
 
 function initialize(){ //initializes first board or reinitializes a new board of given input size
+
+
+    //reassigns boardSize to given input
+    boardSizeHolder = document.getElementById("boardsize");
+    boardSize = boardSizeHolder.value;
+    if (boardSize > 16){
+        boardSize = 16;
+        boardSizeHolder.value = 16;
+    }
+    
+    if (boardSize < 1){
+        boardSize = 1;
+        boardSizeHolder.value = 1
+    }
+
+
     for (let row = 0; row < boardSize; row++) {
         const tr = document.createElement("tr");
         cells[row] = [];
@@ -28,10 +43,6 @@ initialize();
 //code for the reset button
 reset.addEventListener("click", function(){
     board.innerHTML = ""; //removes the previous board
-
-    //reassigns boardSize to given input
-    boardSizeHolder = document.getElementById("boardsize");
-    boardSize = boardSizeHolder.value;
     
     initialize();
 
