@@ -29,3 +29,17 @@ button{
     height: 50px;
     margin: 2%;
 }
+
+#cross{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%
+}
+
+#flag{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%
+}

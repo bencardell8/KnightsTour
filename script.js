@@ -1,5 +1,6 @@
-//sets the default size for the board upon loading the page
-boardSize = 8;
+//sets the size for the board upon loading the page
+boardSizeHolder = document.getElementById("boardsize");
+boardSize = boardSizeHolder.value;
 board = document.getElementById("board");
 const cells = [];
 
@@ -11,12 +12,14 @@ function initialize(){ //initializes first board or reinitializes a new board of
             const td = document.createElement("td");
             //td.textContent = `${row},${col}`;
             td.addEventListener("click", () => startTour(row, col));
-            td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">');
+            td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">');
+            //td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">');
             cells[row][col] = td;
             tr.appendChild(td);
         }
         board.appendChild(tr);
     }
+    //td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">';
 }
 
 initialize();
@@ -39,7 +42,7 @@ function startTour(row, col) {
     for (let r = 0; r < boardSize; r++) {
         for (let c = 0; c < boardSize; c++) {
             cells[r][c].classList.remove("visited", "current");
-            cells[r][c].textContent = ""
+            cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
         }
     }
 
@@ -61,7 +64,7 @@ function startTour(row, col) {
     moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
 
     //choose the next move.
-    const [nextX, nextY] = moves[0];
+    [nextX, nextY] = moves[0];
 
     moveCount++;
     cells[nextX][nextY].textContent = moveCount;
@@ -70,7 +73,12 @@ function startTour(row, col) {
     y = nextY;
     step++;
     cells[x][y].classList.add("visited", "current");
+
     }
+    
+    //console.log([x, y]);
+    cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">';
+    
 }
 
 function findMoves(x, y) {
@@ -85,12 +93,13 @@ function findMoves(x, y) {
     [-1, 2],
     [-2, 1],
     ];
+    
     for (const [dx, dy] of deltas) {
-    const newX = x + dx;
-    const newY = y + dy;
-    if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
-        moves.push([newX, newY]);
-    }
+        const newX = x + dx;
+        const newY = y + dy;
+        if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
+            moves.push([newX, newY]);
+        }
     }
     return moves;
 }
