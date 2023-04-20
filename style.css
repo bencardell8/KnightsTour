@@ -1,16 +1,19 @@
 table {
     border-collapse: collapse;
     margin: auto;
+    width: 600px;
+    height: 600px;
+    table-layout: fixed;
 }
 
 td {
-    width: 50px;
-    height: 50px;
     text-align: center;
-    font-size: 20px;
+    font-size: 100%;
     font-weight: bold;
-    border: 1px solid black;
+    outline: 1px solid black;
+    height: 48px;
 }
+
 
 .visited {
     background-color: orange;
@@ -34,12 +37,18 @@ button{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 75%
 }
 
 #flag{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    width: 75%
+    height: 75%;
+}
+
+#knight{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 75%;
 }

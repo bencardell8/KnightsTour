@@ -9,9 +9,9 @@ function initialize(){ //initializes first board or reinitializes a new board of
     //reassigns boardSize to given input
     boardSizeHolder = document.getElementById("boardsize");
     boardSize = boardSizeHolder.value;
-    if (boardSize > 16){
-        boardSize = 16;
-        boardSizeHolder.value = 16;
+    if (boardSize > 12){
+        boardSize = 12;
+        boardSizeHolder.value = 12;
     }
     
     if (boardSize < 1){
@@ -27,7 +27,7 @@ function initialize(){ //initializes first board or reinitializes a new board of
             const td = document.createElement("td");
             //td.textContent = `${row},${col}`;
             td.addEventListener("click", () => startTour(row, col));
-            td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">');
+            //td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag" max-width: 20%;>');
             //td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">');
             cells[row][col] = td;
             tr.appendChild(td);
@@ -62,6 +62,9 @@ function startTour(row, col) {
     let step = 1;
     let x = row;
     let y = col;
+    console.log([x,y]);
+    cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
+
     cells[x][y].classList.add("visited");
     while (step < boardSize * boardSize) {
     //find  available moves from  current position.
@@ -88,7 +91,7 @@ function startTour(row, col) {
     }
     
     //console.log([x, y]);
-    cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">';
+    cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
     
 }
 
