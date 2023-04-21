@@ -3,6 +3,9 @@
 board = document.getElementById("board");
 const cells = [];
 
+nextStepButton = document.getElementById("nextStepButton")
+finishTourButton = document.getElementById("finishTourButton")
+
 function initialize(){ //initializes first board or reinitializes a new board of given input size
 
 
@@ -49,11 +52,14 @@ reset.addEventListener("click", function(){
 });
 
 function startTour(row, col) {
+
+    console.log(findMoves(row,col))
     // Clear the board.
     for (let r = 0; r < boardSize; r++) {
         for (let c = 0; c < boardSize; c++) {
             cells[r][c].classList.remove("visited", "current");
-            cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
+            //cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
+            cells[r][c].innerHTML = '';
         }
     }
 
@@ -66,32 +72,58 @@ function startTour(row, col) {
     cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
 
     cells[x][y].classList.add("visited");
-    while (step < boardSize * boardSize) {
+    
+    
+   // while (step < boardSize * boardSize) {
     //find  available moves from  current position.
-    const moves = findMoves(x, y);
-    if (moves.length === 0) {
-        //dead end so backtrack.
-        break;
+    nextStepButton.onclick = function(){    
+        const moves = findMoves(x, y);
+        if (moves.length === 0) {
+            //dead end so backtrack.
+            cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
+        }
+
+        //sort moves by the number of unvisited neighbors
+        moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
+        
+        //choose the next move.
+        [nextX, nextY] = moves[0];
+
+        
+        moveCount++;
+        cells[nextX][nextY].textContent = moveCount;
+
+        x = nextX;
+        y = nextY;
+        step++;
+        cells[x][y].classList.add("visited", "current");
     }
 
-    //sort moves by the number of unvisited neighbors
-    moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
+    finishTourButton.onclick = function(){
+        while (step < boardSize * boardSize) {
+            const moves = findMoves(x, y);
+            if (moves.length === 0) {
+                //dead end so backtrack.
+                break;
+            }
+            moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
+        
+            //choose the next move.
+            [nextX, nextY] = moves[0];
 
-    //choose the next move.
-    [nextX, nextY] = moves[0];
+            
+            moveCount++;
+            cells[nextX][nextY].textContent = moveCount;
 
-    moveCount++;
-    cells[nextX][nextY].textContent = moveCount;
-
-    x = nextX;
-    y = nextY;
-    step++;
-    cells[x][y].classList.add("visited", "current");
-
+            x = nextX;
+            y = nextY;
+            step++;
+            cells[x][y].classList.add("visited", "current");
+        }
     }
     
     //console.log([x, y]);
-    cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
+    //cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
     
 }
 
