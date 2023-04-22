@@ -1,9 +1,16 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
 table {
     border-collapse: collapse;
-    margin: auto;
+    
     width: 600px;
     height: 600px;
     table-layout: fixed;
+
+
 }
 
 td {
@@ -30,7 +37,7 @@ h1{
 button{
     width: 100px;
     height: 50px;
-    margin: 2%;
+    margin: 0.5%;
 }
 
 #cross{
@@ -51,4 +58,50 @@ button{
     margin-left: auto;
     margin-right: auto;
     height: 75%;
+}
+
+.align-center {
+    text-align: center;
+}
+
+.align-left {
+    text-align: left;
+}
+
+#container{
+    padding: 10px;;
+   text-align: center;
+
+    /*display: inline;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;*/
+}
+
+#tableSection{
+    display: inline-block;
+}
+
+#aboutContainer{
+    position: a;
+    display: inline-block;
+    vertical-align: top;
+    width: 0;
+    height: 0;
+    float: left;
+    text-align: left;
+}
+
+#aboutSection{
+    display: inline-block;
+    position: absolute;
+    width: 32%;
+    border: 1px black solid;
+}
+
+#tableSection, #aboutSection{
+    padding: 10px;
+
+
 }

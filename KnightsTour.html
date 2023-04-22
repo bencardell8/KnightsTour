@@ -1,19 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
     <title>Knight's Tour</title>
     <link href="style.css" rel="stylesheet">
   </head>
   <body>
-    <h1 align="center">Knight's Tour</h1>
-    <table id="board"></table>
-    <p align="center">
-    <button type="button" id="reset">Reset Board</button>
+    <h1 class="align-center">Knight's Tour</h1>
+    
+    <div id="container">
+      <div id="aboutContainer">
+        <div id="aboutSection">
+          <h2 class="align-center">What is a Knight's Tour?</h2>
+          <p>This is the about section <br> yoyoyo<br></p>
+        </div>
+      </div>
+    
+      <div id="tableSection">
+        <table id="board"></table>
+      </div>
+    
+    </div>
+
+    <div class="align-center" id="stepButtons">
+    <button type="button" id="previousStepButton">&lt;-</button>
     <button type="button" id="finishTourButton">Finish Tour</button>
     <button type="button" id="nextStepButton">-></button>
-    </p> 
+    </div> 
+    
+    <div id="boardSizeReset" class="align-center">
     <label for="boardsize">Board Size (max 12)</label>
     <input type="number" id="boardsize" min="1" max="12" value="8">
-    <script type="text/javascript" src="script.js"></script>
+    <button type="button" id="reset">Reset Board</button>
+    </div>
+    <script src="script.js"></script>
   </body>
 </html>
