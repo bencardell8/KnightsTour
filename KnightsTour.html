@@ -9,10 +9,22 @@
     <h1 class="align-center">Knight's Tour</h1>
     
     <div id="container">
-      <div id="aboutContainer">
-        <div id="aboutSection">
-          <h2 class="align-center">What is a Knight's Tour?</h2>
-          <p>This is the about section <br> yoyoyo<br></p>
+      <div id="leftContainer">
+        <div id="leftSection">
+          <h2 class="align-center">How do I use the site?</h2>
+          <p>
+            Using this site you are able to click on the board to decide where you would like the knight to start. Underneath the board there are several options.
+            <ul>
+              <li>The "&lt;-" button will let you see the previous move</li>
+              <li>The "Finish Tour" button will complete the tour</li>
+              <li>The "->" button will move the knight to the next position</li>
+            </ul>
+          </p>
+          <p>
+            The flag icon represents the starting position, and the knight represents the current position.
+            <br>
+            If the tour cannot be complete, red crosses will appear where the knight did not visit.
+          </p>
         </div>
       </div>
     
@@ -20,6 +32,17 @@
         <table id="board"></table>
       </div>
     
+      <div id="rightContainer">
+        <div id="rightSection">
+          <h2 class="align-center">What is a Knight's Tour?</h2>
+          <p>
+          The Knight's Tour is a popular chess problem revolving around the knight piece. The goal is to move the knight in such a way that it visits every square exactly one time.
+            <br><br>
+          This specific implementation of the Knight's Tour is based on "Warnsdorff's Rule". In essence, this means the next move the knight will take depends on how many unvisited cells can then be accessed; the more the better.
+          </p>
+        </div>
+      </div>
+
     </div>
 
     <div class="align-center" id="stepButtons">

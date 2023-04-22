@@ -31,7 +31,16 @@ td {
 }
 
 h1{
-    margin: 3%;
+    margin: 2%;
+    font-size: 50px;
+}
+
+h2{
+    font-size: 35px;
+}
+
+p, ul{
+    font-size: 25px;
 }
 
 button{
@@ -83,8 +92,7 @@ button{
     display: inline-block;
 }
 
-#aboutContainer{
-    position: a;
+#leftContainer{
     display: inline-block;
     vertical-align: top;
     width: 0;
@@ -93,15 +101,31 @@ button{
     text-align: left;
 }
 
-#aboutSection{
+#leftSection{
     display: inline-block;
     position: absolute;
     width: 32%;
-    border: 1px black solid;
 }
 
-#tableSection, #aboutSection{
+#tableSection, #leftSection, #rightSection{
     padding: 10px;
 
 
+}
+
+#rightContainer{
+    display: inline-block;
+    vertical-align: top;
+    width: 0;
+    height: 0;
+    float:none;
+    text-align: left;
+    
+}
+
+#rightSection{
+    display: inline-block;
+    position: absolute;
+    width: 32%;
+    
 }
