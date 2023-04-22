@@ -46,9 +46,10 @@ initialize();
 //code for the reset button
 reset.addEventListener("click", function(){
     board.innerHTML = ""; //removes the previous board
-    
+    window.location.reload();
     initialize();
-
+    
+    //td.removeEventListener("click", () => startTour(row, col));
 });
 
 function startTour(row, col) {
