@@ -201,18 +201,22 @@ function startTour(row, col) {
         console.log("next move: " + nextX, nextY)
         //console.log(x, y)
         //knightPositions.pop();
-        console.log("Knights positions: ")
-        console.log(knightPositions)
+        
         console.log("Previous position: " + knightPositions.slice(-1)[0])
         //console.log("Previous position: " + knightPositions.pop())
         
-        //previousX = previousPosition[0];
-        //previousY = previousPosition[1];
 
-        //console.log(x)
-        //console.log(y)
-        //x = previousX;
-        //y = previousY;
+        console.log("x, y: ", [x, y])
+        console.log("slice: ", knightPositions.slice(-1)[0])
+
+        if ([x, y].toString() === knightPositions.slice(-1)[0].toString()){
+            console.log("check")
+            knightPositions.pop();
+        }
+
+        console.log("Knights positions: ")
+        console.log(knightPositions)
+
     }
     
     //console.log([x, y]);
