@@ -69,7 +69,7 @@ function startTour(row, col) {
     let step = 1;
     let x = row;
     let y = col;
-    console.log([x,y]);
+    //console.log([x,y]);
     cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
 
     cells[x][y].classList.add("visited");
@@ -92,9 +92,19 @@ function startTour(row, col) {
             //dead end so backtrack.
             //cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
             //console.log("movecount: " + moveCount)
-            console.log("moves: " + moves.length)
-            console.log("knight positions: ")
-            console.log(knightPositions)
+            //console.log("moves: " + moves.length)
+            //console.log("knight positions: ")
+            //console.log(knightPositions)
+
+            for (let r = 0; r < boardSize; r++) {
+                for (let c = 0; c < boardSize; c++) {
+                    if (cells[r][c].innerHTML == ""){
+                        cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
+                    }
+                }
+            }
+
+
             return;
         }
 
@@ -107,9 +117,9 @@ function startTour(row, col) {
         //choose the next move.
         [nextX, nextY] = moves[0];
 
-        
+        //console.log("moves: " , moves)
 
-        console.log(knightPositions)
+        //console.log(knightPositions)
 
         cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
         moveCount++;
@@ -132,6 +142,15 @@ function startTour(row, col) {
         cells[x][y].innerHTML='';
         cells[x][y].classList.remove("visited", "current");
         
+        
+        for (let r = 0; r < boardSize; r++) {
+            for (let c = 0; c < boardSize; c++) {
+                if (cells[r][c].innerHTML == '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">'){
+                    cells[r][c].innerHTML = '';
+                }
+            }
+        }
+
         moveCount--;
         step--;
 
@@ -173,9 +192,6 @@ function startTour(row, col) {
 
             //choose the next move.
             [nextX, nextY] = moves[0];
-
-            
-            console.log("yo")
             
 
             cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
@@ -196,26 +212,34 @@ function startTour(row, col) {
          //   return;
         //}
 
-        console.log("movecount: " + moveCount)
-        console.log("moves: " + moves.length)
-        console.log("next move: " + nextX, nextY)
+        //console.log("movecount: " + moveCount)
+        //console.log("moves: " + moves.length)
+        //console.log("next move: " + nextX, nextY)
         //console.log(x, y)
         //knightPositions.pop();
         
-        console.log("Previous position: " + knightPositions.slice(-1)[0])
+        //console.log("Previous position: " + knightPositions.slice(-1)[0])
         //console.log("Previous position: " + knightPositions.pop())
         
 
-        console.log("x, y: ", [x, y])
-        console.log("slice: ", knightPositions.slice(-1)[0])
+        //console.log("x, y: ", [x, y])
+        //console.log("slice: ", knightPositions.slice(-1)[0])
 
         if ([x, y].toString() === knightPositions.slice(-1)[0].toString()){
-            console.log("check")
+            //console.log("check")
             knightPositions.pop();
         }
 
-        console.log("Knights positions: ")
-        console.log(knightPositions)
+        //console.log("Knights positions: ")
+        //console.log(knightPositions)
+
+        for (let r = 0; r < boardSize; r++) {
+            for (let c = 0; c < boardSize; c++) {
+                if (cells[r][c].innerHTML == ""){
+                    cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
+                }
+            }
+        }
 
     }
     
