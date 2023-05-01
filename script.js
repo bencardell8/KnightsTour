@@ -69,7 +69,7 @@ function startTour(row, col) {
     let step = 1;
     let x = row;
     let y = col;
-    //console.log([x,y]);
+    console.log([x,y]);
     cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
 
     cells[x][y].classList.add("visited");
@@ -241,6 +241,20 @@ function startTour(row, col) {
             }
         }
 
+    }
+
+    findNextMovesButton.onclick = function(){
+        const moves = findMoves(x, y);
+        //console.log(findMoves(x, y));
+        console.log(countUnvisitedNeighbors(x, y));
+        
+        for (let index=0; index < moves.length; ++index){
+            const element = moves[index]
+
+            cells[element[0]][element[1]].classList.add("visited");
+            cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
+            console.log(element)
+        }
     }
     
     //console.log([x, y]);
