@@ -25,20 +25,16 @@ function initialize(){ //initializes first board or reinitializes a new board of
 
 
     for (let row = 0; row < boardSize; row++) {
-        const tr = document.createElement("tr");
+        const tr = document.createElement("tr"); //creates rows for table based on boardSize variable
         cells[row] = [];
         for (let col = 0; col < boardSize; col++) {
-            const td = document.createElement("td");
-            //td.textContent = `${row},${col}`;
-            td.addEventListener("click", () => startTour(row, col));
-            //td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag" max-width: 20%;>');
-            //td.addEventListener("click", () => td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">');
+            const td = document.createElement("td"); //creates data cells (columns) for table based on boardSize variable
+            td.addEventListener("click", () => startTour(row, col));  
             cells[row][col] = td;
-            tr.appendChild(td);
+            tr.appendChild(td); //adds column to table row
         }
-        board.appendChild(tr);
+        board.appendChild(tr); //adds row to table
     }
-    //td.innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg">';
 }
 
 initialize();
