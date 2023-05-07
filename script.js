@@ -110,8 +110,19 @@ function startTour(row, col) {
 
         knightPositions.push([x, y]); //adds knight position to array
         
+
+        
         //choose the next move.
         [nextX, nextY] = moves[0];
+
+
+        //HUGE BIG ALGORITHM FIXER
+        if (countUnvisitedNeighbors(nextX, nextY) == 0 && moves.length != 1){
+            //console.log("Test")
+            [nextX, nextY] = moves[1];
+        }
+
+        console.log(moves.length)
 
         //console.log("moves: " , moves)
 
@@ -190,6 +201,12 @@ function startTour(row, col) {
             [nextX, nextY] = moves[0];
             
 
+            //HUGE BIG ALGORITHM FIXER
+            if (countUnvisitedNeighbors(nextX, nextY) == 0 && moves.length != 1){
+                //console.log("Test")
+                [nextX, nextY] = moves[1];
+        }
+
             cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
             moveCount++;
             cells[x][y].textContent = moveCount;
@@ -249,7 +266,7 @@ function startTour(row, col) {
 
             cells[element[0]][element[1]].classList.add("visited");
             cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
-            console.log(element)
+            //console.log(element)
         }
     }
     
