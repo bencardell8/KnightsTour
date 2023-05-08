@@ -6,6 +6,9 @@ const cells = [];
 
 nextStepButton = document.getElementById("nextStepButton")
 finishTourButton = document.getElementById("finishTourButton")
+previousStepButton = document.getElementById("previousStepButton")
+findNextMovesButton = document.getElementById("findNextMovesButton")
+resetButton = document.getElementById("resetButton")
 
 function initialize(){ //initializes first board or reinitializes a new board of given input size
 
@@ -41,13 +44,13 @@ initialize();
 
 
 //code for the reset button
-reset.addEventListener("click", function(){
+function reset(){
     board.innerHTML = ""; //removes the previous board
     window.location.reload();
     initialize();
-    
-    //td.removeEventListener("click", () => startTour(row, col));
-});
+}
+
+resetButton.onclick = function(){reset()}
 
 function startTour(row, col) {
     var knightPositions = [];
@@ -74,10 +77,15 @@ function startTour(row, col) {
     startY = y;
 
     knightPositions.push([startX, startY]);
-    
-   // while (step < boardSize * boardSize) {
-    //find  available moves from  current position.
-    nextStepButton.onclick = function(){    
+
+    //buttons on control panel
+    nextStepButton.onclick = function(){nextStep()}
+    previousStepButton.onclick = function(){previousStep()}
+    finishTourButton.onclick = function(){finishTour()}
+    findNextMovesButton.onclick = function(){findNextMoves()}
+
+    //function for moving knight forward a step
+    function nextStep(){
         const moves = findMoves(x, y);
         
         if (x == startX && y == startY){ //pop start position off when using next button
@@ -85,8 +93,6 @@ function startTour(row, col) {
         }
 
         if (moves.length === 0) {
-            //console.log("knight positions: ")
-            //console.log(knightPositions)
             for (let r = 0; r < boardSize; r++) {
                 for (let c = 0; c < boardSize; c++) {
                     if (cells[r][c].innerHTML == ""){
@@ -102,10 +108,7 @@ function startTour(row, col) {
         //sort moves by the number of unvisited neighbors
         moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
         
-
         knightPositions.push([x, y]); //adds knight position to array
-        
-
         
         //choose the next move.
         [nextX, nextY] = moves[0];
@@ -119,10 +122,6 @@ function startTour(row, col) {
 
         console.log(moves.length)
 
-        //console.log("moves: " , moves)
-
-        //console.log(knightPositions)
-
         cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
         moveCount++;
         cells[x][y].textContent = moveCount;
@@ -133,9 +132,9 @@ function startTour(row, col) {
         cells[x][y].classList.add("visited", "current");
         cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
     }
-
-    previousStepButton.onclick = function(){    
-
+    
+    //function for moving the knight back a step
+    function previousStep(){
         if (x == startX && y == startY){ // if knight returns to start position
             //console.log("back to the start :)")
             return;
@@ -157,89 +156,26 @@ function startTour(row, col) {
         step--;
 
         var previousPosition = knightPositions.pop();
-        //console.log(previousPosition)
         previousX = previousPosition[0];
         previousY = previousPosition[1];
-        console.log(previousPosition)
-        console.log(knightPositions)
-        //console.log(previousX)
+        //console.log(previousPosition)
+        //console.log(knightPositions)
         cells[previousX][previousY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
 
         x = previousX;
         y = previousY;
     }
 
-    finishTourButton.onclick = function(){ //function for Finish Tour button
+    //function for knight to finish tour
+    function finishTour(){
         const moves = findMoves(x, y);
         while (step < boardSize * boardSize) { //repeats next step code until done
-            const moves = findMoves(x, y);
-            moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
-            
-            knightPositions.push([x, y]); //adds knight position to array
-
-            if (x == startX && y == startY){ //pop start position off when using next button
-                knightPositions.pop()
-            }
-            
-            
-            
-            if (moves.length === 0) {
-                //dead end so backtrack.
-                if (moves.length === 0)
-                break;
-            }
-            
-
-            //choose the next move.
-            [nextX, nextY] = moves[0];
-            
-
-            //HUGE BIG ALGORITHM FIXER
-            if (countUnvisitedNeighbors(nextX, nextY) == 0 && moves.length != 1){
-                //console.log("Test")
-                [nextX, nextY] = moves[1];
+            nextStep();
         }
-
-            cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
-            moveCount++;
-            cells[x][y].textContent = moveCount;
-
-            x = nextX;
-            y = nextY;
-            step++;
-            cells[x][y].classList.add("visited", "current");
-            cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
-
-            
-        }
-
-
-        //knightPositions.pop();
-        
-        //console.log("Previous position: " + knightPositions.slice(-1)[0])
-        //console.log("Previous position: " + knightPositions.pop())
-        
-        //console.log("slice: ", knightPositions.slice(-1)[0])
-
-        if ([x, y].toString() === knightPositions.slice(-1)[0].toString()){
-            //console.log("check")
-            knightPositions.pop();
-        }
-
-        //console.log("Knights positions: ")
-        //console.log(knightPositions)
-
-        for (let r = 0; r < boardSize; r++) {
-            for (let c = 0; c < boardSize; c++) {
-                if (cells[r][c].innerHTML == ""){
-                    cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
-                }
-            }
-        }
-
     }
-
-    findNextMovesButton.onclick = function(){
+    
+    //function to find the next possible moves and the count of their unvisited neighbours
+    function findNextMoves(){
         const moves = findMoves(x, y);
         //console.log(findMoves(x, y));
         console.log(countUnvisitedNeighbors(x, y));
@@ -251,8 +187,7 @@ function startTour(row, col) {
             cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
             //console.log(element)
         }
-    }
-    
+    }    
 }
 
 
