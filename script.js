@@ -158,8 +158,6 @@ function startTour(row, col) {
         var previousPosition = knightPositions.pop();
         previousX = previousPosition[0];
         previousY = previousPosition[1];
-        //console.log(previousPosition)
-        //console.log(knightPositions)
         cells[previousX][previousY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
 
         x = previousX;
@@ -167,10 +165,73 @@ function startTour(row, col) {
     }
 
     //function for knight to finish tour
-    function finishTour(){
+    return function finishTour(){
         const moves = findMoves(x, y);
         while (step < boardSize * boardSize) { //repeats next step code until done
-            nextStep();
+            const moves = findMoves(x, y);
+            moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
+            
+            knightPositions.push([x, y]); //adds knight position to array
+
+            if (x == startX && y == startY){ //pop start position off when using next button
+                knightPositions.pop()
+            }
+            
+            
+            
+            if (moves.length === 0) {
+                //dead end so backtrack.
+                if (moves.length === 0)
+                break;
+            }
+            
+
+            //choose the next move.
+            [nextX, nextY] = moves[0];
+            
+
+            //HUGE BIG ALGORITHM FIXER
+            if (countUnvisitedNeighbors(nextX, nextY) == 0 && moves.length != 1){
+                //console.log("Test")
+                [nextX, nextY] = moves[1];
+        }
+
+            cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
+            moveCount++;
+            cells[x][y].textContent = moveCount;
+
+            x = nextX;
+            y = nextY;
+            step++;
+            cells[x][y].classList.add("visited", "current");
+            cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
+
+            
+        }
+
+        if ([x, y].toString() === knightPositions.slice(-1)[0].toString()){
+            knightPositions.pop();
+        }
+
+        for (let r = 0; r < boardSize; r++) {
+            for (let c = 0; c < boardSize; c++) {
+                if (cells[r][c].innerHTML == ""){
+                    cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
+                }
+            }
+        }
+    }
+
+    findNextMovesButton.onclick = function(){
+        const moves = findMoves(x, y);
+        //console.log(findMoves(x, y));
+        console.log(countUnvisitedNeighbors(x, y));
+        
+        for (let index=0; index < moves.length; ++index){
+            const element = moves[index]
+
+            cells[element[0]][element[1]].classList.add("visited");
+            cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
         }
     }
     
@@ -217,3 +278,18 @@ function countUnvisitedNeighbors(x, y) {
     }
     return count;
 }
+
+function calculateSuccess(){
+    var tourSuccess = 0;
+    for (let r = 0; r < boardSize; r++) {
+        for (let c = 0; c < boardSize; c++) {
+            startTour(r, c)();
+            var visitedCells = document.getElementsByClassName("visited")
+            tourSuccess += (visitedCells.length)
+            //console.log(tourSuccess + "%")
+        }
+    }
+    console.log("Tour Success Percentage: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
+}
+
+//calculateSuccess();
