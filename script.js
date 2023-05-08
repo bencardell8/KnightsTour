@@ -85,13 +85,8 @@ function startTour(row, col) {
         }
 
         if (moves.length === 0) {
-            //dead end so backtrack.
-            //cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
-            //console.log("movecount: " + moveCount)
-            //console.log("moves: " + moves.length)
             //console.log("knight positions: ")
             //console.log(knightPositions)
-
             for (let r = 0; r < boardSize; r++) {
                 for (let c = 0; c < boardSize; c++) {
                     if (cells[r][c].innerHTML == ""){
@@ -169,8 +164,6 @@ function startTour(row, col) {
         console.log(knightPositions)
         //console.log(previousX)
         cells[previousX][previousY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
-        //cells[x][y].classList.add("visited", "current");
-        //cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
 
         x = previousX;
         y = previousY;
@@ -220,22 +213,12 @@ function startTour(row, col) {
             
         }
 
-       // if (moves.length === 0) {
-            //dead end so backtrack.
-         //   return;
-        //}
 
-        //console.log("movecount: " + moveCount)
-        //console.log("moves: " + moves.length)
-        //console.log("next move: " + nextX, nextY)
-        //console.log(x, y)
         //knightPositions.pop();
         
         //console.log("Previous position: " + knightPositions.slice(-1)[0])
         //console.log("Previous position: " + knightPositions.pop())
         
-
-        //console.log("x, y: ", [x, y])
         //console.log("slice: ", knightPositions.slice(-1)[0])
 
         if ([x, y].toString() === knightPositions.slice(-1)[0].toString()){
@@ -270,25 +253,15 @@ function startTour(row, col) {
         }
     }
     
-    //console.log([x, y]);
-    //cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
-    
 }
+
+
+let knightMoves = [[2, 1],[1, 2],[-2, -1],[-1, -2],[2, -1],[1, -2],[-2, 1],[-1, 2]];
+
 
 function findMoves(x, y) {
     const moves = [];
-    const deltas = [
-    [-2, -1],
-    [-1, -2],
-    [1, -2],
-    [2, -1],
-    [2, 1],
-    [1, 2],
-    [-1, 2],
-    [-2, 1],
-    ];
-    
-    for (const [dx, dy] of deltas) {
+    for (const [dx, dy] of knightMoves) {
         const newX = x + dx;
         const newY = y + dy;
         if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
@@ -300,17 +273,7 @@ function findMoves(x, y) {
 
 function countUnvisitedNeighbors(x, y) {
     let count = 0;
-    const deltas = [
-    [-2, -1],
-    [-1, -2],
-    [1, -2],
-    [2, -1],
-    [2, 1],
-    [1, 2],
-    [-1, 2],
-    [-2, 1],
-    ];
-    for (const [dx, dy] of deltas) {
+    for (const [dx, dy] of knightMoves) {
     const newX = x + dx;
     const newY = y + dy;
     if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
