@@ -281,15 +281,31 @@ function countUnvisitedNeighbors(x, y) {
 
 function calculateSuccess(){
     var tourSuccess = 0;
+    var completeTour = 0;
+    var incompleteTour = 0;
     for (let r = 0; r < boardSize; r++) {
         for (let c = 0; c < boardSize; c++) {
             startTour(r, c)();
             var visitedCells = document.getElementsByClassName("visited")
             tourSuccess += (visitedCells.length)
             //console.log(tourSuccess + "%")
+
+            if (visitedCells.length == boardSize*boardSize){
+                //console.log("True")
+                completeTour = completeTour + 1;
+            }
+            else{
+                //console.log("False")
+                incompleteTour = incompleteTour + 1;
+            }
         }
     }
-    console.log("Tour Success Percentage: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
+    //console.log("Tour Success Percentage: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
+    //console.log((completeTour-incompleteTour) / (boardSize*boardSize) * 100 + "%")
+    console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
+    //boardSize++
+    //reset();
+
 }
 
-//calculateSuccess();
+calculateSuccess();
