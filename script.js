@@ -288,7 +288,6 @@ function calculateSuccess(){
             startTour(r, c)();
             var visitedCells = document.getElementsByClassName("visited")
             tourSuccess += (visitedCells.length)
-            //console.log(tourSuccess + "%")
 
             if (visitedCells.length == boardSize*boardSize){
                 //console.log("True")
@@ -300,11 +299,12 @@ function calculateSuccess(){
             }
         }
     }
-    //console.log("Tour Success Percentage: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
-    //console.log((completeTour-incompleteTour) / (boardSize*boardSize) * 100 + "%")
-    console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
-    //boardSize++
-    //reset();
+
+    //console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
+    //console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
+
+    console.log("Average visisted squares: " + tourSuccess / (boardSize*boardSize))
+    console.log("Tour Success Percentage: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
 
 }
 
