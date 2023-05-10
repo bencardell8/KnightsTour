@@ -235,18 +235,15 @@ function startTour(row, col) {
         }
     }
     
-    //function to find the next possible moves and the count of their unvisited neighbours
+    // Function to find the next possible moves and the count of their unvisited neighbours
     function findNextMoves(){
-        const moves = findMoves(x, y);
-        //console.log(findMoves(x, y));
-        console.log(countUnvisitedNeighbors(x, y));
+        const moves = findMoves(x, y); // Uses findMoves function to find all possible moves from location
         
-        for (let index=0; index < moves.length; ++index){
+        for (let index=0; index < moves.length; ++index){ // Iterates through all possible moves
             const element = moves[index]
-
-            cells[element[0]][element[1]].classList.add("visited");
+            cells[element[0]][element[1]].classList.add("visited"); // Makes movable cells orange (easier to see)
             cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
-            //console.log(element)
+            // ^ Displays number of unvisited neighbors onto movable cells ^
         }
     }    
 }
@@ -283,28 +280,28 @@ function calculateSuccess(){
     var tourSuccess = 0;
     var completeTour = 0;
     var incompleteTour = 0;
-    for (let r = 0; r < boardSize; r++) {
+    for (let r = 0; r < boardSize; r++) { // Iterates through every position avaliable
         for (let c = 0; c < boardSize; c++) {
-            startTour(r, c)();
-            var visitedCells = document.getElementsByClassName("visited")
+            startTour(r, c)(); // Run start tour function to place knight at first position, run finishTour() to finish tour
+            var visitedCells = document.getElementsByClassName("visited") // Visited cells can be counted by counting how many are in the class
             tourSuccess += (visitedCells.length)
 
-            if (visitedCells.length == boardSize*boardSize){
-                //console.log("True")
-                completeTour = completeTour + 1;
+            if (visitedCells.length == boardSize*boardSize){ // If all cells are visited, success
+                completeTour++; // Counter for when knight completes tour
             }
-            else{
-                //console.log("False")
-                incompleteTour = incompleteTour + 1;
+            else{ // If not all cells are visited, fail
+                incompleteTour++; // Counter for when knight fails tour
             }
         }
     }
 
-    //console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
-    //console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
+    // Print test results for completing tour
+    console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
+    console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
 
+    // Print test results for board coverage
     console.log("Average visisted squares: " + tourSuccess / (boardSize*boardSize))
-    console.log("Tour Success Percentage: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
+    console.log("Board coverage %: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
 
 }
 
