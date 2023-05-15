@@ -222,19 +222,6 @@ function startTour(row, col) {
         }
     }
 
-    findNextMovesButton.onclick = function(){
-        const moves = findMoves(x, y);
-        //console.log(findMoves(x, y));
-        console.log(countUnvisitedNeighbors(x, y));
-        
-        for (let index=0; index < moves.length; ++index){
-            const element = moves[index]
-
-            cells[element[0]][element[1]].classList.add("visited");
-            cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
-        }
-    }
-    
     // Function to find the next possible moves and the count of their unvisited neighbours
     function findNextMoves(){
         const moves = findMoves(x, y); // Uses findMoves function to find all possible moves from location
@@ -267,11 +254,11 @@ function findMoves(x, y) {
 function countUnvisitedNeighbors(x, y) {
     let count = 0;
     for (const [dx, dy] of knightMoves) {
-    const newX = x + dx;
-    const newY = y + dy;
-    if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
-        count++;
-    }
+        const newX = x + dx;
+        const newY = y + dy;
+        if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
+            count++;
+        }
     }
     return count;
 }
