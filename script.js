@@ -105,8 +105,8 @@ function startTour(row, col) {
             return;
         }
 
-        //sort moves by the number of unvisited neighbors
-        moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
+        //sort moves by the number of unvisited neighbours
+        moves.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
         
         knightPositions.push([x, y]); //adds knight position to array
         
@@ -115,7 +115,7 @@ function startTour(row, col) {
 
 
         //HUGE BIG ALGORITHM FIXER
-        if (countUnvisitedNeighbors(nextX, nextY) == 0 && moves.length != 1){
+        if (countUnvisitedNeighbours(nextX, nextY) == 0 && moves.length != 1){
             //console.log("Test")
             [nextX, nextY] = moves[1];
         }
@@ -165,11 +165,11 @@ function startTour(row, col) {
     }
 
     //function for knight to finish tour
-    return function finishTour(){
+    function finishTour(){
         const moves = findMoves(x, y);
         while (step < boardSize * boardSize) { //repeats next step code until done
             const moves = findMoves(x, y);
-            moves.sort((a, b) => countUnvisitedNeighbors(a[0], a[1]) - countUnvisitedNeighbors(b[0], b[1]));
+            moves.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
             
             knightPositions.push([x, y]); //adds knight position to array
 
@@ -191,7 +191,7 @@ function startTour(row, col) {
             
 
             //HUGE BIG ALGORITHM FIXER
-            if (countUnvisitedNeighbors(nextX, nextY) == 0 && moves.length != 1){
+            if (countUnvisitedNeighbours(nextX, nextY) == 0 && moves.length != 1){
                 //console.log("Test")
                 [nextX, nextY] = moves[1];
         }
@@ -225,41 +225,38 @@ function startTour(row, col) {
     findNextMovesButton.onclick = function(){
         const moves = findMoves(x, y);
         //console.log(findMoves(x, y));
-        console.log(countUnvisitedNeighbors(x, y));
+        console.log(countUnvisitedNeighbours(x, y));
         
         for (let index=0; index < moves.length; ++index){
             const element = moves[index]
 
             cells[element[0]][element[1]].classList.add("visited");
-            cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
+            cells[element[0]][element[1]].textContent = countUnvisitedNeighbours(element[0],element[1]);
         }
     }
     
-    //function to find the next possible moves and the count of their unvisited neighbours
+    //Function to find the next possible moves and the count of their unvisited neighbours
     function findNextMoves(){
-        const moves = findMoves(x, y);
-        //console.log(findMoves(x, y));
-        console.log(countUnvisitedNeighbors(x, y));
+        const moves = findMoves(x, y); //Uses findMoves function to find all possible moves from location
         
-        for (let index=0; index < moves.length; ++index){
+        for (let index=0; index < moves.length; ++index){ //Iterates through all possible moves
             const element = moves[index]
-
-            cells[element[0]][element[1]].classList.add("visited");
-            cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
-            //console.log(element)
+            cells[element[0]][element[1]].classList.add("visited"); //Makes movable cells orange
+            cells[element[0]][element[1]].textContent = countUnvisitedNeighbours(element[0],element[1]);
+            // ^ Displays number of unvisited neighbours on cells ^
         }
     }    
 }
 
-
+//all possible moves a knight piece can make, as coordinates (L shape)
 let knightMoves = [[2, 1],[1, 2],[-2, -1],[-1, -2],[2, -1],[1, -2],[-2, 1],[-1, 2]];
 
-
 function findMoves(x, y) {
-    const moves = [];
-    for (const [dx, dy] of knightMoves) {
-        const newX = x + dx;
-        const newY = y + dy;
+    const moves = []; //initialiazes empty array
+    for (const [dx, dy] of knightMoves) { //loops through all knight moves
+        const newX = x + dx; //stores x coordinate of future position
+        const newY = y + dy; //stores y coordinate of future position
+        //if next move is inside board size and has not been visited before, push to array
         if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
             moves.push([newX, newY]);
         }
@@ -267,45 +264,47 @@ function findMoves(x, y) {
     return moves;
 }
 
-function countUnvisitedNeighbors(x, y) {
-    let count = 0;
-    for (const [dx, dy] of knightMoves) {
-    const newX = x + dx;
-    const newY = y + dy;
-    if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
-        count++;
+function countUnvisitedNeighbours(x, y) {
+    let countNeighbours = 0; //initialiazes count variable
+    for (const [dx, dy] of knightMoves) { //loops through all knight moves
+        const newX = x + dx; //stores x coordinate of future position
+        const newY = y + dy; //stores y coordinate of future position
+        //if next move is inside board size and has not been visited before, increase count
+        if (newX >= 0 && newX < boardSize && newY >= 0 && newY < boardSize && !cells[newX][newY].classList.contains("visited")) {
+            countNeighbours++;
+        }
     }
-    }
-    return count;
+    return countNeighbours;
 }
 
 function calculateSuccess(){
     var tourSuccess = 0;
     var completeTour = 0;
     var incompleteTour = 0;
-    for (let r = 0; r < boardSize; r++) {
+    for (let r = 0; r < boardSize; r++) { //Iterates through every position avaliable
         for (let c = 0; c < boardSize; c++) {
-            startTour(r, c)();
-            var visitedCells = document.getElementsByClassName("visited")
+            startTour(r, c)(); //Run startTour function to place knight, the finishTour to finish tour
+            var visitedCells = document.getElementsByClassName("visited") //Visited cells counted by counting how many are in class
             tourSuccess += (visitedCells.length)
 
-            if (visitedCells.length == boardSize*boardSize){
-                //console.log("True")
-                completeTour = completeTour + 1;
+            if (visitedCells.length == boardSize*boardSize){ //If all cells are visited, tour is success
+                completeTour = completeTour + 1; //Counter for knight completing tour
             }
-            else{
-                //console.log("False")
-                incompleteTour = incompleteTour + 1;
+            else{ //If not all cells viited, tour is fail
+                incompleteTour = incompleteTour + 1; //Counter for knight failing tour
             }
         }
     }
 
-    //console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
-    //console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
 
+    //Print test results for completing tour
+    console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
+    console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
+
+    //Print test results for board coverage
     console.log("Average visisted squares: " + tourSuccess / (boardSize*boardSize))
     console.log("Tour Success Percentage: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
 
 }
 
-calculateSuccess();
+//calculateSuccess();
