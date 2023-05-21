@@ -58,7 +58,6 @@ function startTour(row, col) {
     for (let r = 0; r < boardSize; r++) {
         for (let c = 0; c < boardSize; c++) {
             cells[r][c].classList.remove("visited", "current");
-            //cells[r][c].innerHTML = '<img src="https://upload.wikimedia.org/wikipedia/commons/d/da/Crystal_button_cancel.png" id="cross">';
             cells[r][c].innerHTML = '';
         }
     }
@@ -68,8 +67,9 @@ function startTour(row, col) {
     let step = 1;
     let x = row;
     let y = col;
-    console.log([x,y]);
+    console.log([x,y]); //Prints starting position of knight in console
     cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
+    // ^ Places knight icon on starting position ^
 
     cells[x][y].classList.add("visited");
     
@@ -81,7 +81,7 @@ function startTour(row, col) {
     //buttons on control panel
     nextStepButton.onclick = function(){nextStep()}
     previousStepButton.onclick = function(){previousStep()}
-    finishTourButton.onclick = function(){finishTour()}
+    finishTourButton.onclick = function(){finishTour()} 
     findNextMovesButton.onclick = function(){findNextMoves()}
 
     //function for moving knight forward a step
@@ -100,8 +100,6 @@ function startTour(row, col) {
                     }
                 }
             }
-
-
             return;
         }
 
@@ -110,25 +108,22 @@ function startTour(row, col) {
         
         knightPositions.push([x, y]); //adds knight position to array
         
-        //choose the next move.
-        [nextX, nextY] = moves[0];
+        [nextX, nextY] = moves[0]; //choose the next move
 
-
-        //HUGE BIG ALGORITHM FIXER
+        //If moving to dead end, choose next best move
         if (countUnvisitedNeighbours(nextX, nextY) == 0 && moves.length != 1){
-            //console.log("Test")
             [nextX, nextY] = moves[1];
         }
 
-        console.log(moves.length)
-
         cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
+        
         moveCount++;
+        step++;
+
         cells[x][y].textContent = moveCount;
 
-        x = nextX;
-        y = nextY;
-        step++;
+        [x, y] = [nextX, nextY];
+
         cells[x][y].classList.add("visited", "current");
         cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
     }
@@ -155,13 +150,11 @@ function startTour(row, col) {
         moveCount--;
         step--;
 
-        var previousPosition = knightPositions.pop();
-        previousX = previousPosition[0];
-        previousY = previousPosition[1];
+        [previousX, previousY] = knightPositions.pop(); //get previous position
+
         cells[previousX][previousY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
 
-        x = previousX;
-        y = previousY;
+        [x, y] = [previousX, previousY];
     }
 
     //function for knight to finish tour
@@ -177,24 +170,20 @@ function startTour(row, col) {
                 knightPositions.pop()
             }
             
-            
-            
             if (moves.length === 0) {
                 //dead end so backtrack.
                 if (moves.length === 0)
                 break;
             }
             
-
             //choose the next move.
             [nextX, nextY] = moves[0];
             
 
-            //HUGE BIG ALGORITHM FIXER
+            //If moving to dead end, choose next best move
             if (countUnvisitedNeighbours(nextX, nextY) == 0 && moves.length != 1){
-                //console.log("Test")
                 [nextX, nextY] = moves[1];
-        }
+            }
 
             cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
             moveCount++;
@@ -204,9 +193,7 @@ function startTour(row, col) {
             y = nextY;
             step++;
             cells[x][y].classList.add("visited", "current");
-            cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
-
-            
+            cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';  
         }
 
         if ([x, y].toString() === knightPositions.slice(-1)[0].toString()){
