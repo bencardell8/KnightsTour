@@ -281,16 +281,14 @@ function calculateSuccess(){
     }
 
     //Print test results for completing tour
-    //console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
-    //console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
+    console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
+    console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
 
     //Print test results for board coverage
-    //console.log("Average visisted squares: " + tourSuccess / (boardSize*boardSize))
-    //console.log("Board coverage %: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
+    console.log("Average visisted squares: " + tourSuccess / (boardSize*boardSize) + "/" + boardSize*boardSize)
+    console.log("Board coverage %: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
 
-    console.log("Average time taken to complete tour: " + (timeTakenTotal / (boardSize*boardSize)) + "ms")
+    //console.log("Average time taken to complete tour: " + (timeTakenTotal / (boardSize*boardSize)) + "ms")
 }
 
-//console.time("calculateSuccess")
 calculateSuccess();
-//console.timeEnd("calculateSuccess")
