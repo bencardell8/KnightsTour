@@ -1,7 +1,7 @@
 //sets the size for the board upon loading the page
 
 board = document.getElementById("board");
-const cells = [];
+cells = [];
 
 
 nextStepButton = document.getElementById("nextStepButton")
@@ -67,14 +67,13 @@ function startTour(row, col) {
     let step = 1;
     let x = row;
     let y = col;
-    console.log([x,y]); //Prints starting position of knight in console
+    //console.log([x,y]); //Prints starting position of knight in console
     cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
     // ^ Places knight icon on starting position ^
 
     cells[x][y].classList.add("visited");
     
-    startX = x;
-    startY = y;
+    [startX, startY] = [x, y]
 
     knightPositions.push([startX, startY]);
 
@@ -122,10 +121,13 @@ function startTour(row, col) {
 
         cells[x][y].textContent = moveCount;
 
+        //console.log([x,y]);
+
         [x, y] = [nextX, nextY];
 
         cells[x][y].classList.add("visited", "current");
         cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
+
     }
     
     //function for moving the knight back a step
@@ -137,7 +139,6 @@ function startTour(row, col) {
 
         cells[x][y].innerHTML='';
         cells[x][y].classList.remove("visited", "current");
-        
         
         for (let r = 0; r < boardSize; r++) {
             for (let c = 0; c < boardSize; c++) {
@@ -158,8 +159,7 @@ function startTour(row, col) {
     }
 
     //function for knight to finish tour
-    function finishTour(){
-        const moves = findMoves(x, y);
+    return function finishTour(){
         while (step < boardSize * boardSize) { //repeats next step code until done
             const moves = findMoves(x, y);
             moves.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
@@ -170,28 +170,28 @@ function startTour(row, col) {
                 knightPositions.pop()
             }
             
+             //dead end so backtrack.
             if (moves.length === 0) {
-                //dead end so backtrack.
-                if (moves.length === 0)
                 break;
             }
             
             //choose the next move.
             [nextX, nextY] = moves[0];
             
-
             //If moving to dead end, choose next best move
             if (countUnvisitedNeighbours(nextX, nextY) == 0 && moves.length != 1){
                 [nextX, nextY] = moves[1];
             }
 
             cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
+           
             moveCount++;
+            step++;
+
             cells[x][y].textContent = moveCount;
 
-            x = nextX;
-            y = nextY;
-            step++;
+            [x, y] = [nextX, nextY];
+
             cells[x][y].classList.add("visited", "current");
             cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';  
         }
@@ -207,6 +207,9 @@ function startTour(row, col) {
                 }
             }
         }
+        //console.log("Running finishTour function:")
+        //console.log("Knight positions array:")
+        //console.log(knightPositions)
     }
 
     // Function to find the next possible moves and the count of their unvisited neighbours
@@ -255,9 +258,16 @@ function calculateSuccess(){
     var tourSuccess = 0;
     var completeTour = 0;
     var incompleteTour = 0;
+    var timeTakenTotal = 0;
     for (let r = 0; r < boardSize; r++) { // Iterates through every position avaliable
         for (let c = 0; c < boardSize; c++) {
+            var startTime = performance.now() //Starts timer for function
             startTour(r, c)(); // Run start tour function to place knight at first position, run finishTour() to finish tour
+            var endTime = performance.now() //Ends timer for function
+            timeTaken = endTime - startTime // Assigns time taken to variable
+            console.log("Tour from position (" + r + ",", c + "): " + (timeTaken) + " milliseconds") //Prints times in console
+            timeTakenTotal = timeTakenTotal + timeTaken;
+
             var visitedCells = document.getElementsByClassName("visited") // Visited cells can be counted by counting how many are in the class
             tourSuccess += (visitedCells.length)
 
@@ -270,15 +280,17 @@ function calculateSuccess(){
         }
     }
 
-
     //Print test results for completing tour
-    console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
-    console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
+    //console.log("Completed tour count vs uncomplete tour count: " + completeTour + "/" + incompleteTour)
+    //console.log("Percentage of chance to complete tour: " + (completeTour / (boardSize*boardSize)) * 100 + "%")
 
     //Print test results for board coverage
-    console.log("Average visisted squares: " + tourSuccess / (boardSize*boardSize))
-    console.log("Board coverage %: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
+    //console.log("Average visisted squares: " + tourSuccess / (boardSize*boardSize))
+    //console.log("Board coverage %: " + ((tourSuccess / (boardSize*boardSize)) * 100) / (boardSize*boardSize) + "%")
 
+    console.log("Average time taken to complete tour: " + (timeTakenTotal / (boardSize*boardSize)) + "ms")
 }
 
-//calculateSuccess();
+//console.time("calculateSuccess")
+calculateSuccess();
+//console.timeEnd("calculateSuccess")
