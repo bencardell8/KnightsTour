@@ -67,7 +67,10 @@ function startTour(row, col) {
     let step = 1;
     let x = row;
     let y = col;
-    //console.log([x,y]); //Prints starting position of knight in console
+    //let tieBreakAX = 0;
+    //let tieBreakAY = 0;
+    //tempMoveHolder = []
+    console.log([x,y]); //Prints starting position of knight in console
     cells[x][y].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
     // ^ Places knight icon on starting position ^
 
@@ -105,6 +108,62 @@ function startTour(row, col) {
         //sort moves by the number of unvisited neighbours
         moves.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
         
+        /*console.log(moves)
+
+        
+        if(moves.length !== 1 && moves[0].countUnvisitedNeighbours == moves[1].countUnvisitedNeighbours){
+
+            for(let i = 0; i < moves.length; i++){
+                const target = moves[0].countUnvisitedNeighbours
+
+                if (moves[i].countUnvisitedNeighbours == target){
+                    //console.log("True")
+                    [tieBreakAX, tieBreakAY] = moves[0];
+                    [tieBreakBX, tieBreakBY] = moves[i];
+
+                    const tieBreak1 = findMoves(tieBreakAX, tieBreakAY);
+                    const tieBreak2 = findMoves(tieBreakBX, tieBreakBY);
+
+                    tieBreak1.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
+                    tieBreak2.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
+
+
+                    //console.log(countUnvisitedNeighbours(tempMoves[0]))
+
+                    var moveCounter1 = 0
+                    var moveCounter2 = 0
+
+                    for (let index = 0; index < tieBreak1.length; ++index) {
+                        const element2 = tieBreak1[index]
+                        //console.log(countUnvisitedNeighbours(moveTest))
+                        //console.log(countUnvisitedNeighbours(element2[0], element2[1]))
+                        moveCounter1 = moveCounter1 + countUnvisitedNeighbours(element2[0], element2[1])
+                    } 
+
+                    for (let index = 0; index < tieBreak2.length; ++index) {
+                        const element2 = tieBreak2[index]
+                        //console.log(countUnvisitedNeighbours(moveTest))
+                        //console.log(countUnvisitedNeighbours(element2[0], element2[1]))
+                        moveCounter2 = moveCounter2 + countUnvisitedNeighbours(element2[0], element2[1])
+                    } 
+
+
+                    if(moveCounter1 > moveCounter2){
+                        console.log("BIGGER")
+                        tempMoveHolder = moves[0]
+                        moves[0] = moves[i]
+                        moves[i] = tempMoveHolder
+                    }
+
+                    //console.log(moveCounter1)
+                    //console.log(moveCounter2)
+
+                    }                   
+                }
+            }
+
+*/
+
         knightPositions.push([x, y]); //adds knight position to array
         
         [nextX, nextY] = moves[0]; //choose the next move
@@ -164,6 +223,59 @@ function startTour(row, col) {
             const moves = findMoves(x, y);
             moves.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
             
+            /*
+            if(moves.length !== 1 && moves[0].countUnvisitedNeighbours == moves[1].countUnvisitedNeighbours){
+
+                for(let i = 0; i < moves.length; i++){
+                    const target = moves[0].countUnvisitedNeighbours
+    
+                    if (moves[i].countUnvisitedNeighbours == target){
+                        //console.log("True")
+                        [tieBreakAX, tieBreakAY] = moves[0];
+                        [tieBreakBX, tieBreakBY] = moves[i];
+    
+                        const tieBreak1 = findMoves(tieBreakAX, tieBreakAY);
+                        const tieBreak2 = findMoves(tieBreakBX, tieBreakBY);
+    
+                        tieBreak1.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
+                        tieBreak2.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
+    
+    
+                        //console.log(countUnvisitedNeighbours(tempMoves[0]))
+    
+                        var moveCounter1 = 0
+                        var moveCounter2 = 0
+    
+                        for (let index = 0; index < tieBreak1.length; ++index) {
+                            const element2 = tieBreak1[index]
+                            //console.log(countUnvisitedNeighbours(moveTest))
+                            //console.log(countUnvisitedNeighbours(element2[0], element2[1]))
+                            moveCounter1 = moveCounter1 + countUnvisitedNeighbours(element2[0], element2[1])
+                        } 
+    
+                        for (let index = 0; index < tieBreak2.length; ++index) {
+                            const element2 = tieBreak2[index]
+                            //console.log(countUnvisitedNeighbours(moveTest))
+                            //console.log(countUnvisitedNeighbours(element2[0], element2[1]))
+                            moveCounter2 = moveCounter2 + countUnvisitedNeighbours(element2[0], element2[1])
+                        } 
+    
+    
+                        if(moveCounter1 > moveCounter2){
+                            console.log("BIGGER")
+                            tempMoveHolder = moves[0]
+                            moves[0] = moves[i]
+                            moves[i] = tempMoveHolder
+                        }
+    
+                        //console.log(moveCounter1)
+                        //console.log(moveCounter2)
+    
+                        }                   
+                    }
+                }
+*/
+
             knightPositions.push([x, y]); //adds knight position to array
 
             if (x == startX && y == startY){ //pop start position off when using next button
@@ -219,7 +331,7 @@ function startTour(row, col) {
         for (let index=0; index < moves.length; ++index){ // Iterates through all possible moves
             const element = moves[index]
             cells[element[0]][element[1]].classList.add("visited"); // Makes movable cells orange (easier to see)
-            cells[element[0]][element[1]].textContent = countUnvisitedNeighbors(element[0],element[1]);
+            cells[element[0]][element[1]].textContent = countUnvisitedNeighbours(element[0],element[1]);
             // ^ Displays number of unvisited neighbors onto movable cells ^
         }
     }    
