@@ -3,7 +3,7 @@
 board = document.getElementById("board");
 cells = [];
 
-
+//Gets buttons from html page
 nextStepButton = document.getElementById("nextStepButton")
 finishTourButton = document.getElementById("finishTourButton")
 previousStepButton = document.getElementById("previousStepButton")
@@ -16,11 +16,12 @@ function initialize(){ //initializes first board or reinitializes a new board of
     //reassigns boardSize to given input
     boardSizeHolder = document.getElementById("boardsize");
     boardSize = boardSizeHolder.value;
+    
+    //Prevents user going outside board size boundaries
     if (boardSize > 12){
         boardSize = 12;
         boardSizeHolder.value = 12;
-    }
-    
+    } 
     if (boardSize < 1){
         boardSize = 1;
         boardSizeHolder.value = 1
@@ -40,6 +41,7 @@ function initialize(){ //initializes first board or reinitializes a new board of
     }
 }
 
+//Creates board on page load
 initialize();
 
 
@@ -94,6 +96,7 @@ function startTour(row, col) {
             knightPositions.pop()
         }
 
+        //If tour isnt complete, fill unvisited spaces with crosses
         if (moves.length === 0) {
             for (let r = 0; r < boardSize; r++) {
                 for (let c = 0; c < boardSize; c++) {
@@ -108,6 +111,7 @@ function startTour(row, col) {
         //sort moves by the number of unvisited neighbours
         moves.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
         
+        //Commented out code for Pohl's tie-break attempt
         /*console.log(moves)
 
         
@@ -173,16 +177,18 @@ function startTour(row, col) {
             [nextX, nextY] = moves[1];
         }
 
+        //Places knight icon at new location
         cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
         
+        //Increments moveCount and step values
         moveCount++;
         step++;
 
-        cells[x][y].textContent = moveCount;
+        cells[x][y].textContent = moveCount; //Places number of tour position
 
         //console.log([x,y]);
 
-        [x, y] = [nextX, nextY];
+        [x, y] = [nextX, nextY]; //Sets current value of x and y to new move
 
         cells[x][y].classList.add("visited", "current");
         cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';
@@ -218,11 +224,12 @@ function startTour(row, col) {
     }
 
     //function for knight to finish tour
-    return function finishTour(){
+    function finishTour(){
         while (step < boardSize * boardSize) { //repeats next step code until done
             const moves = findMoves(x, y);
             moves.sort((a, b) => countUnvisitedNeighbours(a[0], a[1]) - countUnvisitedNeighbours(b[0], b[1]));
             
+            //Commented out code for Pohl's tie-break attempt
             /*
             if(moves.length !== 1 && moves[0].countUnvisitedNeighbours == moves[1].countUnvisitedNeighbours){
 
@@ -295,14 +302,16 @@ function startTour(row, col) {
                 [nextX, nextY] = moves[1];
             }
 
+            //Places knight icon at new location
             cells[nextX][nextY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Chess_nlt45.svg" id="knight">';
            
+            //Increments moveCount and step values
             moveCount++;
             step++;
 
-            cells[x][y].textContent = moveCount;
+            cells[x][y].textContent = moveCount; //Places number of tour position
 
-            [x, y] = [nextX, nextY];
+            [x, y] = [nextX, nextY]; //Sets current value of x and y to new move
 
             cells[x][y].classList.add("visited", "current");
             cells[startX][startY].innerHTML='<img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Emojione1_1F6A9.svg" id="flag">';  
@@ -312,6 +321,7 @@ function startTour(row, col) {
             knightPositions.pop();
         }
 
+        //If tour isnt complete, fill unvisited spaces with crosses
         for (let r = 0; r < boardSize; r++) {
             for (let c = 0; c < boardSize; c++) {
                 if (cells[r][c].innerHTML == ""){
@@ -366,6 +376,7 @@ function countUnvisitedNeighbours(x, y) {
     return countNeighbours;
 }
 
+//Function to calculate how well the tour performs
 function calculateSuccess(){
     var tourSuccess = 0;
     var completeTour = 0;
@@ -403,4 +414,4 @@ function calculateSuccess(){
     //console.log("Average time taken to complete tour: " + (timeTakenTotal / (boardSize*boardSize)) + "ms")
 }
 
-calculateSuccess();
+//calculateSuccess();
