@@ -10,3 +10,5 @@ There are buttons to move the knight to the next step, move the knight back a st
 Note the finish tour button can be used partway through a tour.
 
 If you wish to change the size of the board, change the value in the input field below the board to a value from 1-12 depending on the size of board you want, then click the "Reset" button to make the changes. The "Reset" button can also be used to reset the current board without changing the size of the board.
+
+To access calculateSuccess to test effiency: type "return" before "finishTour" function (~line 162), and uncomment calculateSuccess at end of JS file.
